@@ -1,11 +1,11 @@
 {
-  "version": 2,
-  "functions": {
-    "api/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "rewrites": [
-    { "source": "/sos", "destination": "/api/sos" }
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "env": {},
+  "routes": [
+    { "src": "/index.html", "dest": "/index.html" },
+    { "src": "/policedashbord.html", "dest": "/policedashbord.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
+
