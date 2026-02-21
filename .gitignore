@@ -1,1 +1,6 @@
+<<<<<<< HEAD
+=======
+node_module
+.env.example
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405
 .vercel

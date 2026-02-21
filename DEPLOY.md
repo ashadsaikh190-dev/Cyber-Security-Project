@@ -2,6 +2,7 @@
 
 This project contains two static HTML pages and their JavaScript dependencies. No server or database required.
 
+<<<<<<< HEAD
 > **Note:** before running any commands, make sure your shell is in the repository root. For example:
 >
 > ```bash
@@ -9,6 +10,8 @@ This project contains two static HTML pages and their JavaScript dependencies. N
 > ```
 >
 
+=======
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405
 ## Quick Deploy
 
 1. Install Vercel CLI (one time):

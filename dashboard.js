@@ -1,11 +1,18 @@
 const supabaseUrl = "https://nianoafaavkiiviffbbt.supabase.co";
+<<<<<<< HEAD
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pYW5vYWZhYXZraWl2aWZmYmJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MzMzOTksImV4cCI6MjA4NjEwOTM5OX0.2Jdmy5kk1-Kx2-AJZMJwfOPLuHU0XsjAaZXL6ODR9mk"; // keep your key here
+=======
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pYW5vYWZhYXZraWl2aWZmYmJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MzMzOTksImV4cCI6MjA4NjEwOTM5OX0.2Jdmy5kk1-Kx2-AJZMJwfOPLuHU0XsjAaZXL6ODR9mk";
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405
 
 const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 let map;
+<<<<<<< HEAD
 let markers = []; // to avoid duplicate markers
 let latestAlerts = []; // cached latest fetched alerts for client-side filtering
+=======
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -14,6 +21,7 @@ function initMap() {
   });
 }
 
+<<<<<<< HEAD
 // Clear old markers
 function clearMarkers() {
   markers.forEach(marker => marker.setMap(null));
@@ -114,10 +122,21 @@ async function showAlerts(data) {
 
     const marker = new google.maps.Marker({
       position: { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) },
+=======
+function showAlerts(data) {
+  let output = "";
+
+  data.forEach(alert => {
+
+    // Add marker
+    new google.maps.Marker({
+      position: { lat: parseFloat(alert.latitude), lng: parseFloat(alert.longitude) },
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405
       map: map,
       title: "SOS Alert"
     });
 
+<<<<<<< HEAD
     markers.push(marker);
 
     // if we fetched the address via Nominatim, persist it back to Supabase
@@ -225,10 +244,38 @@ async function updateProgress(id, newStatus) {
 }
 
 // REALTIME updates (INSERT + UPDATE)
+=======
+   output += `
+  <div style="border:2px solid red; margin:10px; padding:10px;">
+    <h3>🚨 LIVE SOS ALERT</h3>
+    <p>Latitude: ${alert.latitude}</p>
+    <p>Longitude: ${alert.longitude}</p>
+    <p>Time: ${new Date(alert.created_at).toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata"
+    })}</p>
+  </div>
+`;
+  });
+
+  document.getElementById("alerts").innerHTML = output;
+}
+
+// Load existing alerts
+async function loadAlerts() {
+  const { data, error } = await supabaseClient
+    .from('alerts')
+    .select('*');
+
+  showAlerts(data);
+}
+
+// REALTIME updates
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405
 supabaseClient
   .channel('alerts-channel')
   .on(
     'postgres_changes',
+<<<<<<< HEAD
     { event: '*', schema: 'public', table: 'alerts' },
     async payload => {
       // whenever something changes, reload and zoom to newest alert
@@ -237,10 +284,16 @@ supabaseClient
         // order() above ensures newest is first
         zoomTo(data[0].latitude, data[0].longitude);
       }
+=======
+    { event: 'INSERT', schema: 'public', table: 'alerts' },
+    payload => {
+      loadAlerts();
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405
     }
   )
   .subscribe();
 
+<<<<<<< HEAD
 // helper to recenter the map when an alert card is clicked
 function zoomTo(lat, lng) {
   if (!map) return;
@@ -251,3 +304,7 @@ function zoomTo(lat, lng) {
 initMap();
 loadAlerts();
 setupFilters();
+=======
+initMap();
+loadAlerts();
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405

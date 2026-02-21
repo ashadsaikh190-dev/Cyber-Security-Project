@@ -37,6 +37,7 @@ window.onload = function () {
       const mapLink = `https://www.google.com/maps?q=${lat},${lng}`;
 
     
+<<<<<<< HEAD
     // try to get a human readable address; prefer simple OpenStreetMap Nominatim
     async function reverseGeocode(lat, lng) {
       try {
@@ -73,6 +74,16 @@ window.onload = function () {
         created_at: new Date().toISOString()
       }
     ]);
+=======
+      const { error } = await supabase.from("alerts").insert([
+        {
+          latitude: lat,
+          longitude: lng,
+          status: "SOS TRIGGERED",
+          created_at: new Date().toISOString()
+        }
+      ]);
+>>>>>>> b26bd9a071d6c9653ab0c8d4aa0db88cf8700405
 
       if (error) {
         alert("Database error");
