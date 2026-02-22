@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Women Safety SOS</title>
+
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    p {
+      font-size: 14px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .sos-btn {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: none;
+      background: radial-gradient(circle, #ff0000, #b30000);
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(255,0,0,0.7);
+      transition: all 0.2s ease;
+      animation: pulse 1.6s infinite;
+    }
+
+    .sos-btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 0 10px rgba(255,0,0,0.5);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255,0,0,0.7); }
+      70% { box-shadow: 0 0 0 25px rgba(255,0,0,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    /* details/form styling */
+    #details {
+      margin-top: 20px;
+      text-align: left;
+    }
+    #details input,
+    #details textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+    #details textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    #details button {
+      display: inline-block;
+      padding: 8px 20px;
+      background: #555;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #details button:hover {
+      background: #444;
+    }
+
+    #countdown {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    /* limit container width for better proportions */
+    .container {
+      max-width: 380px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>🚨 Women Safety SOS</h1>
+    <p>Press the button in an emergency. Your location will be sent immediately to police and guards. You may fill in the details below afterwards – there is no time limit.</p>
+
+    <button id="sosBtn" class="sos-btn">SOS</button>
+
+    <div id="countdown" class="status"></div>
+
+    <div id="details" style="margin-top:20px; text-align:left; display:block;">
+      <input type="text" id="userName" placeholder="Your name" /><br/><br/>
+      <input type="tel" id="phoneNumber" placeholder="Phone number" /><br/><br/>
+      <input type="text" id="emergencyContact" placeholder="Emergency contact" /><br/><br/>
+      <input type="text" id="currentLocation" placeholder="Current location" disabled /><br/><br/>
+      <input type="text" id="destination" placeholder="Final destination" /><br/><br/>
+      <textarea id="optionalMessage" placeholder="Optional message" rows="3" style="width:100%;"></textarea><br/><br/>
+      <div style="display:flex; gap:12px;">
+        <button id="cancelBtn" style="background:#555;color:#fff;padding:8px 16px;border:none;border-radius:4px;">Cancel</button>
+        <button id="submitBtn" style="background:#007bff;color:#fff;padding:8px 16px;border:none;border-radius:4px;">Submit Details</button>
+      </div>
+    </div>
+
+    <div class="status" id="statusText">
+      System ready. Stay safe.
+    </div>
+  </div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  
+  <script src="app.js"></script>
+
+</body>
+</html>

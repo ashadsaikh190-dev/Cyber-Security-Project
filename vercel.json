@@ -1,0 +1,11 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "env": {},
+  "routes": [
+    { "src": "/index.html", "dest": "/index.html" },
+    { "src": "/policedashbord.html", "dest": "/policedashbord.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
+

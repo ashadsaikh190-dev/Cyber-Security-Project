@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PCR Emergency Dashboard</title>
+
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    .alert-card {
+  background:#111827;
+  padding:15px;
+  margin-bottom:12px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+.btn-group {
+  margin-top:10px;
+  display:flex;
+  gap:10px;
+}
+
+.btn-progress {
+  background:orange;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-resolved {
+  background:green;
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-progress:hover,
+.btn-resolved:hover {
+  opacity:0.8;
+}
+   
+    
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    background: #0f172a;
+    color: #fff;
+     
+  }
+
+  .header {
+    background: linear-gradient(90deg, #ff0000, #b30000);
+    padding: 18px 30px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    min-height: 100vh;
+  }
+
+  .map-card {
+    background: #1e293b;
+    padding: 15px;
+  }
+
+  #map {
+    height: 600px;
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .alert-panel {
+    background: #020617;
+    padding: 20px;
+    height: 100vh;
+    position: sticky;
+    top: 70px;
+    overflow-y: auto;
+  }
+
+  .alert-panel h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 10px;
+  }
+
+  /* stats bar */
+  .stats-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .stat {
+    background: #0b1220;
+    padding: 10px 12px;
+    border-radius: 8px;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .stat .num {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .stat .label {
+    font-size: 12px;
+    color: #94a3b8;
+  }
+
+  .alert-card {
+    background: #111827;
+    border-left: 5px solid red;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    box-shadow: 0 6px 14px rgba(2,6,23,0.35);
+  }
+
+  .alert-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 18px 36px rgba(2,6,23,0.5);
+  }
+
+  .stat:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 10px 30px rgba(2,6,23,0.45);
+  }
+
+  /* placeholder when there are no SOS entries */
+  .no-alerts {
+    color: #94a3b8;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+  }
+  }
+
+  .alert-card h3 {
+    color: #ff4d4d;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+
+  .alert-card p {
+    font-size: 13px;
+    opacity: 0.9;
+    margin: 3px 0;
+  }
+
+  @media(max-width: 900px){
+    .container {
+      grid-template-columns: 1fr;
+    }
+
+    #map {
+      height: 350px;
+    }
+
+    .alert-panel {
+      position: relative;
+      height: auto;
+    }
+  }
+
+
+  </style>
+</head>
+
+<body>
+
+  
+  <div class="header">
+    🚨 Police PCR Emergency Monitoring Dashboard
+  </div>
+
+  <div class="container">
+
+    
+    <div class="map-card">
+      <div id="map"></div>
+    </div>
+
+    
+    <div class="alert-panel">
+      <h2>Live SOS Alerts</h2>
+      <!-- search / filter panel -->
+      <div class="filter-panel" style="margin-bottom:10px; display:flex; gap:8px; align-items:center;">
+        <input id="searchInput" type="search" placeholder="Search by address or id" style="flex:1; padding:8px 10px; border-radius:6px; border:1px solid #233040; background:#071025; color:#fff;">
+        <select id="statusFilter" style="padding:8px 10px; border-radius:6px; border:1px solid #233040; background:#071025; color:#fff;">
+          <option value="ALL">All Statuses</option>
+          <option value="PENDING">Pending</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="RESOLVED">Resolved</option>
+        </select>
+        <button id="clearFilters" style="padding:8px 12px; border-radius:6px; background:#0b1220; color:#fff; border:1px solid #233040; cursor:pointer;">Clear</button>
+      </div>
+
+      <div id="statsBar" class="stats-bar" aria-hidden="false">
+        <!-- populated by dashboard.js -->
+        <div class="stat"><div class="num">0</div><div class="label">Total</div></div>
+        <div class="stat"><div class="num">0</div><div class="label">Pending</div></div>
+        <div class="stat"><div class="num">0</div><div class="label">In Progress</div></div>
+        <div class="stat"><div class="num">0</div><div class="label">Resolved</div></div>
+      </div>
+      <div id="alerts"></div>
+    </div>
+
+  </div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAt-3HvlWY8Nnc7EykyE-w97NwFiHvpasM"></script>
+
+  
+  <script src="dashboard.js"></script>
+
+</body>
+</html>
